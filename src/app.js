@@ -22,4 +22,11 @@ app.use(express.urlencoded({extended : true, Limit : "16kb"}));
 //cookie-parser is helpes to acess the data which is in the client browser and also set the data in to the cookie.
 app.use(cookieParser());
 
+// routes import 
+import userRouter from "./routes/user.route.js";
+
+
+// routes declaration
+app.use("/api/v1/users", userRouter);
+
 export { app };
