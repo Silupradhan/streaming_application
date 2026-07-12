@@ -50,12 +50,9 @@ const userSchema = new mongoose.Schema({
 
 
 // before export the userSchema, we need to add a pre-save hook to hash the password before saving it to the database. This will ensure that the password is stored securely in the database and cannot be easily accessed by unauthorized users.
-userSchema.pre("save", async function (next) {
-    //problem is that if the user is updating their profile then it will run tis code and hass the password again so i can write the if block
-    // if the password is not modified, we don't need to hash it again. So we can just call next() to move on to the next middleware.
-    if (!this.isModified("password")) return next();
+userSchema.pre("save", async function () {
+    if (!this.isModified("password")) return;
     this.password = await bcrypt.hash(this.password, 10);
-    next()
 })
 
 // this will be check the password entered by the user during login with the hashed password stored in the database. If the passwords match, it will return true, otherwise it will return false.
